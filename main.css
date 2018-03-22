@@ -1,11 +1,16 @@
+* {
+    box-sizing: border-box;
+}
+
 #search-results {
     column-count: 4;
-    column-gap: 7px;
-    line-height: 25px;
+    column-gap: 0;
+    line-height: 0;
 }
 
 .photo-container {
     width: 100%;
+    padding: 3px;
 }
 
 img {
