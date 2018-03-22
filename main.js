@@ -1,4 +1,5 @@
 const UNSPLASH_SEARCH_URL = "https://api.unsplash.com/search/photos";
+const pageNumber = 1;
 
 function getSearchResults(searchText, callback) {
     const settings = {
@@ -16,6 +17,24 @@ function getSearchResults(searchText, callback) {
 
 }
 
+function renderPhoto(photo) {
+    const photoUrl = photo.urls.small;
+    const userName = photo.user.name;
+
+    return `
+        <div class="photo-container">
+          <img src="${photoUrl}" alt="A photo by ${userName}">
+        </div>
+    `
+}
+
+function renderSearchResults(data) {
+    console.log(data);
+    const results= data.results.map((photo, index) => renderPhoto(photo));
+    $('#search-results').html(results);
+}
+
+
 function listenForPhotoSearchClick() {
     //this listens for a click on the photo search form
     $('#photo-search-form').submit(event => {
@@ -26,23 +45,6 @@ function listenForPhotoSearchClick() {
     console.log(searchTerm);
     getSearchResults(searchTerm, renderSearchResults);
     });
-}
-
-function renderPhoto(photo) {
-    const photoUrl = photo.urls.small;
-    const userName = photo.user.username;
-
-    return `
-        <div class="photo-container">
-          <img src="${photoUrl}" alt="${userName}">
-        </div>
-    `
-}
-
-function renderSearchResults(data) {
-    console.log(data);
-    const results= data.results.map((photo, index) => renderPhoto(photo));
-    $('#search-results').html(results);
 }
 
 function getColorPalette(imageUrl) {
