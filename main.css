@@ -1,0 +1,13 @@
+#search-results {
+    column-count: 4;
+    column-gap: 7px;
+    line-height: 25px;
+}
+
+.photo-container {
+    width: 100%;
+}
+
+img {
+    width: 100%;
+}
