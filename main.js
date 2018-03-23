@@ -23,6 +23,8 @@ function renderPhoto(photo) {
     return `
         <div class="photo-container">
           <img src="${photoUrl}" alt="A photo by ${userName}">
+          <div class="button-container">
+          </div>
         </div>
     `
 }
@@ -111,12 +113,23 @@ function generateColorPalette(er, data) {
     console.log(er);
 }
 
+function renderPhotoButtons(selectedImg) {
+    $('.button-container').html('');
+    $(selectedImg).parent('.photo-container').children('.button-container').html(`
+    <div class="target-photo-buttons">
+        <button class="button img-source">View on Unsplash</button>
+        <button class="button generate-palette">Generate Color Palette</button>
+    </div>
+    `)
+}
+
 function listenForPhotoSelect() {
     //this listens for a click on a search result photo
     $('#search-results').on('click', 'img', event => {
-        
-        const imageUrl = $(event.currentTarget).attr('src');
-        getColorPalette(imageUrl);
+        const selectedImg = event.currentTarget;
+        const imageUrl = $(selectedImg).attr('src');
+       // getColorPalette(imageUrl);
+       renderPhotoButtons(selectedImg);
     });
 }
 
