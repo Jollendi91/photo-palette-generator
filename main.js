@@ -114,14 +114,15 @@ function generateColorPalette(er, data) {
 function listenForPhotoSelect() {
     //this listens for a click on a search result photo
     $('#search-results').on('click', 'img', event => {
-        const imageUrl = $('img').attr('src');
+        
+        const imageUrl = $(event.currentTarget).attr('src');
         getColorPalette(imageUrl);
     });
 }
 
 function callListeners() {
     listenForPhotoSearchClick();
-    //  listenForPhotoSelect();
+    listenForPhotoSelect();
     listenForPaginationClick();
 }
 
