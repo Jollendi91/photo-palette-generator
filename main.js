@@ -90,31 +90,6 @@ function listenForPhotoSearchClick() {
     });
 }
 
-function getColorPalette(imageUrl) {
-    //this makes a call to the color extractor api and returns a set of colors in the photo
-    const imageToBeExtracted = {
-        url: 'https://api.imagga.com/v1/colors',
-        "async": true,
-        "crossDomain": true,
-        data: {
-            url: imageUrl
-        },
-        "method": "GET",
-        "headers": {
-            "Authorization": "Basic YWNjX2QxMmYyN2E4ZjU3MTFmNzoxZjdiYjViZWE5OGNkYjVkYWM0MGQyNGI0ODQ4OGIyYg==",
-            "Cache-Control": "no-cache",
-        },
-        success: generateColorPalette
-    }
-
-    $.ajax(imageToBeExtracted);
-}
-
-function generateColorPalette(er, data) {
-    console.log(data);
-    console.log(er);
-}
-
 function renderPhotoButtons(selectedImg) {
     const userName = $(selectedImg).attr('data-username');
     const unsplashUserLink = $(selectedImg).attr('data-unsplash-user');
@@ -138,10 +113,42 @@ function listenForPhotoSelect() {
     });
 }
 
+function generateColorPalette(data) {
+    console.log(data);
+}
+
+function getColorPalette(imageUrl) {
+    //this makes a call to the color extractor api and returns a set of colors in the photo
+    const imageToBeExtracted = {
+        url: 'https://api.imagga.com/v1/colors',
+        "async": true,
+        "crossDomain": true,
+        data: {
+            url: imageUrl
+        },
+        "method": "GET",
+        "headers": {
+            "Authorization": "Basic YWNjX2QxMmYyN2E4ZjU3MTFmNzoxZjdiYjViZWE5OGNkYjVkYWM0MGQyNGI0ODQ4OGIyYg==",
+            "Cache-Control": "no-cache",
+        },
+        success: generateColorPalette
+    }
+
+    $.ajax(imageToBeExtracted);
+}
+
+function listenGenColorPalette() {
+    $('#search-results').on('click','.generate-palette', event => {
+        const imgUrl= $(event.currentTarget).closest('.photo-container').children('img').attr('src');
+        getColorPalette(imgUrl);
+    });
+}
+
 function callListeners() {
     listenForPhotoSearchClick();
     listenForPhotoSelect();
     listenForPaginationClick();
+    listenGenColorPalette();
 }
 
 $(callListeners);
