@@ -113,8 +113,36 @@ function listenForPhotoSelect() {
     });
 }
 
-function generateColorPalette(data) {
-    console.log(data);
+function renderColor(color) {
+    const colorRed = color.r;
+    const colorGreen = color.g;
+    const colorBlue = color.b;
+    const colorHex = color.html_code;
+    const colorId = colorHex.replace(/\#/g, '');
+
+    $('#color-palette-container').append(`
+        <div class="color" id="${colorId}">
+        </div>
+    `);
+
+    $(`#${colorId}`).css('background-color', `${colorHex}`);
+} 
+
+function generateColorPalette(photo) {
+    console.log(photo);
+    const photoColors = photo.results[0].info;
+    const backgroundColors = photoColors.background_colors;
+    const imageColors = photoColors.image_colors;
+    const foregroundColors = photoColors.foreground_colors;
+    const photoImage = photo.results[0].image;
+
+    $('#color-palette-container').empty();
+    
+    backgroundColors.map((color, index) => renderColor(color));
+
+    imageColors.map((color,index) => renderColor(color));
+
+    foregroundColors.map((color, index) => renderColor(color));
 }
 
 function getColorPalette(imageUrl) {
