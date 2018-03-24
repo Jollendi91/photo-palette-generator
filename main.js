@@ -19,10 +19,12 @@ function getSearchResults(searchText, callback) {
 function renderPhoto(photo) {
     const photoUrl = photo.urls.small;
     const userName = photo.user.name;
+    const unsplashUserLink = photo.user.links.html;
+    const unsplashLink = photo.links.html;
 
     return `
         <div class="photo-container">
-          <img src="${photoUrl}" alt="A photo by ${userName}">
+          <img src="${photoUrl}" data-username="${userName}" data-unsplash-user="${unsplashUserLink}" data-unsplash="${unsplashLink}" alt="A photo by ${userName}">
           <div class="button-container">
           </div>
         </div>
@@ -114,10 +116,12 @@ function generateColorPalette(er, data) {
 }
 
 function renderPhotoButtons(selectedImg) {
+    const userName = $(selectedImg).attr('data-username');
+    const unsplashUserLink = $(selectedImg).attr('data-unsplash-user');
     $('.button-container').html('');
     $(selectedImg).parent('.photo-container').children('.button-container').html(`
     <div class="target-photo-buttons">
-        <button class="button img-source">View on Unsplash</button>
+        <p>Photo by <a  href="${unsplashUserLink}?utm_source=photo_palette&utm_medium=referral" target="_blank">${userName}</a> on <a href="https://unsplash.com/?utm_source=photo_palette&utm_medium=referral" target="_blank">Unsplash</a></p>
         <button class="button generate-palette">Generate Color Palette</button>
     </div>
     `)
@@ -127,6 +131,7 @@ function listenForPhotoSelect() {
     //this listens for a click on a search result photo
     $('#search-results').on('click', 'img', event => {
         const selectedImg = event.currentTarget;
+        console.log(selectedImg);
         const imageUrl = $(selectedImg).attr('src');
        // getColorPalette(imageUrl);
        renderPhotoButtons(selectedImg);
