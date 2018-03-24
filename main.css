@@ -12,8 +12,15 @@
 .photo-container {
     width: 100%;
     padding: 3px;
+    page-break-inside: avoid;
+    break-inside: avoid;
 }
 
 img {
     width: 100%;
+}
+
+.target-photo-buttons p {
+    line-height: normal;
+    margin-top: 5px;
 }
