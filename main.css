@@ -25,7 +25,29 @@ img {
     margin-top: 5px;
 }
 
+/* Color Palette Section */
+
+#color-palette {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100vh;
+}
+
+.color-palette-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
 .color {
-    width: 50px;
-    height: 50px;
+    width: 100px;
+    height: 100px;
+    display: inline-block;
+    float: left;
+}
+
+.target-image-container {
+    max-width: 50%;
+    margin: 25px auto;
 }
