@@ -148,8 +148,8 @@ function generateBackgroundColors(colors) {
         colors.map((color, index) => {
             const colorId = color.html_code.replace(/\#/g, '');
             $('.background-color').append(`
-                <div class="color values" id="${colorId}-container">
-                    <div class="color" id="${colorId}">
+                <div class="color" id="${colorId}-container">
+                    <div class="color-block" id="${colorId}">
                     </div>
                 </div>
             `);
@@ -168,8 +168,8 @@ function generateForegroundColors(colors) {
         colors.map((color, index) => {
             const colorId = color.html_code.replace(/\#/g, '');
             $('.foreground-color').append(`
-                <div class="color values" id="${colorId}-container">
-                    <div class="color" id="${colorId}">
+                <div class="color" id="${colorId}-container">
+                    <div class="color-block" id="${colorId}">
                     </div>
                 </div>
             `);
@@ -188,8 +188,8 @@ function generateImageColors(colors) {
         colors.map((color, index) => {
             const colorId = color.html_code.replace(/\#/g, '');
             $('.image-color').append(`
-                <div class="color values" id="${colorId}-container">
-                    <div class="color" id="${colorId}">
+                <div class="color" id="${colorId}-container">
+                    <div class="color-block" id="${colorId}">
                     </div>
                 </div>
             `);
