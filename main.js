@@ -230,7 +230,7 @@ function listenGenColorPalette() {
     $('#search-results').on('click','.generate-palette', event => {
         const imgUrl= $(event.currentTarget).closest('.photo-container').children('img').attr('src');
         getColorPalette(imgUrl);
-        $('#color-palette').css('height', '100vh');
+        $('#color-palette').css('min-height', '100vh');
         $('html, body').animate({
             scrollTop: ($('#color-palette').offset().top)
         },500);
