@@ -120,13 +120,72 @@ function renderColor(color) {
     const colorHex = color.html_code;
     const colorId = colorHex.replace(/\#/g, '');
 
-    $('#color-palette-container').append(`
-        <div class="color" id="${colorId}">
-        </div>
-    `);
+   
 
     $(`#${colorId}`).css('background-color', `${colorHex}`);
 } 
+
+function createColorContainer(color) {
+    const colorId = color.html_code.replace(/\#/g, '');
+    return `
+    <div class="color" id="${colorId}">
+    </div>
+    `;
+}
+
+function generateBackgroundColors(colors) {
+    if (colors.length !== 0) {
+        $('.color-palette-container').append(`
+            <div class="palette background-color">
+                <h2 class="palette-header">Background Colors</h2>
+            </div>
+        `);
+        colors.map((color, index) => {
+            const colorId = color.html_code.replace(/\#/g, '');
+            $('.background-color').append(`
+                <div class="color" id="${colorId}">
+                </div>
+            `);
+            renderColor(color);
+        });
+    }
+}
+
+function generateForegroundColors(colors) {
+    if (colors.length !== 0) {
+        $('.color-palette-container').append(`
+            <div class="palette foreground-color">
+                <h2 class="palette-header">Foreground Colors</h2>
+            </div>
+        `);
+        colors.map((color, index) => {
+            const colorId = color.html_code.replace(/\#/g, '');
+            $('.foreground-color').append(`
+                <div class="color" id="${colorId}">
+                </div>
+            `);
+            renderColor(color);
+        });
+    }
+}
+
+function generateImageColors(colors) {
+    if (colors.length !== 0) {
+        $('.color-palette-container').append(`
+            <div class="palette image-color">
+                <h2 class="palette-header">Image Colors</h2>
+            </div>
+        `);
+        colors.map((color, index) => {
+            const colorId = color.html_code.replace(/\#/g, '');
+            $('.image-color').append(`
+                <div class="color" id="${colorId}">
+                </div>
+            `);
+            renderColor(color);
+        });
+    }
+}
 
 function generateColorPalette(photo) {
     console.log(photo);
@@ -136,13 +195,15 @@ function generateColorPalette(photo) {
     const foregroundColors = photoColors.foreground_colors;
     const photoImage = photo.results[0].image;
 
-    $('#color-palette-container').empty();
-    
-    backgroundColors.map((color, index) => renderColor(color));
+    $('.target-image-container').empty();
+    $('.target-image-container').append(`
+        <img src="${photoImage}">
+    `);
 
-    imageColors.map((color,index) => renderColor(color));
-
-    foregroundColors.map((color, index) => renderColor(color));
+    $('.color-palette-container').empty();
+    generateBackgroundColors(backgroundColors);
+    generateForegroundColors(foregroundColors);
+    generateImageColors(imageColors);
 }
 
 function getColorPalette(imageUrl) {
