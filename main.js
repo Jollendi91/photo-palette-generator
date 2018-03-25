@@ -120,9 +120,14 @@ function renderColor(color) {
     const colorHex = color.html_code;
     const colorId = colorHex.replace(/\#/g, '');
 
-   
-
     $(`#${colorId}`).css('background-color', `${colorHex}`);
+
+    $(`#${colorId}-container`).append(`
+        <div class="color-values">
+            <p>rgb(${colorRed}, ${colorGreen}, ${colorBlue})</p>
+            <p>Hex: ${colorHex}</p>
+        </div>
+    `);
 } 
 
 function createColorContainer(color) {
@@ -143,7 +148,9 @@ function generateBackgroundColors(colors) {
         colors.map((color, index) => {
             const colorId = color.html_code.replace(/\#/g, '');
             $('.background-color').append(`
-                <div class="color" id="${colorId}">
+                <div class="color values" id="${colorId}-container">
+                    <div class="color" id="${colorId}">
+                    </div>
                 </div>
             `);
             renderColor(color);
@@ -161,7 +168,9 @@ function generateForegroundColors(colors) {
         colors.map((color, index) => {
             const colorId = color.html_code.replace(/\#/g, '');
             $('.foreground-color').append(`
-                <div class="color" id="${colorId}">
+                <div class="color values" id="${colorId}-container">
+                    <div class="color" id="${colorId}">
+                    </div>
                 </div>
             `);
             renderColor(color);
@@ -179,7 +188,9 @@ function generateImageColors(colors) {
         colors.map((color, index) => {
             const colorId = color.html_code.replace(/\#/g, '');
             $('.image-color').append(`
-                <div class="color" id="${colorId}">
+                <div class="color values" id="${colorId}-container">
+                    <div class="color" id="${colorId}">
+                    </div>
                 </div>
             `);
             renderColor(color);
