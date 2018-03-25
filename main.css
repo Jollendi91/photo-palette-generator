@@ -110,6 +110,12 @@ h2 {
     #search-results {
         column-count: 3;
     }
+
+    .target-image-container {
+        max-width: 50%;
+        max-height: 450px;
+        margin: 10px auto;
+    }
 }
 
 @media only screen and (min-width: 1000px) {
