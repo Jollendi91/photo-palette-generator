@@ -52,14 +52,14 @@ function renderSearchResults(data, status, jqXHR) {
 
     links = parseLinkHeader(pageLinks);
 
-    $('#page-buttons').html('');
+    $('.page-buttons').html('');
 
     if (links.prev) {
-        $('#page-buttons').append(`<button id="prev">Previous</button>`);
+        $('.page-buttons').append(`<button id="prev" role="button">Previous</button>`);
     }
 
     if (links.next) {
-        $('#page-buttons').append(`<button id="next">Next</button>`);
+        $('.page-buttons').append(`<button id="next" role="button">Next</button>`);
     }
 }
 
@@ -68,11 +68,11 @@ function listenForPaginationClick() {
         success: renderSearchResults
     }
 
-    $('#page-buttons').on('click', '#prev', event => {
+    $('.page-buttons').on('click', '#prev', event => {
         $.ajax(links.prev, settings);
     });
 
-    $('#page-buttons').on('click', '#next', event => {
+    $('.page-buttons').on('click', '#next', event => {
         $.ajax(links.next, settings);
     });
 }
@@ -97,7 +97,7 @@ function renderPhotoButtons(selectedImg) {
     $(selectedImg).parent('.photo-container').children('.button-container').html(`
     <div class="target-photo-buttons">
         <p>Photo by <a  href="${unsplashUserLink}?utm_source=photo_palette&utm_medium=referral" target="_blank">${userName}</a> on <a href="https://unsplash.com/?utm_source=photo_palette&utm_medium=referral" target="_blank">Unsplash</a></p>
-        <button class="button generate-palette">Generate Color Palette</button>
+        <button class="button generate-palette" role="button">Generate Color Palette</button>
     </div>
     `)
 }
@@ -212,6 +212,7 @@ function generateColorPalette(photo) {
     `);
 
     $('.color-palette-container').empty();
+    $('#color-palette').prepend('<button id="close-palette" role="button">Try another!</button>');
     generateBackgroundColors(backgroundColors);
     generateForegroundColors(foregroundColors);
     generateImageColors(imageColors);
@@ -237,11 +238,26 @@ function getColorPalette(imageUrl) {
     $.ajax(imageToBeExtracted);
 }
 
+function listenForClosePalette() {
+    $('#color-palette').on('click', '#close-palette', event => {
+        $('.target-image-container').empty();
+        $('.color-palette-container').empty();
+        $('#close-palette').remove();
+        $('#color-palette').css('min-height', '0');
+        $('html, body').animate({
+            scrollTop: ($('#search-results').offset().top)
+        },500);
+
+    });
+}
+
 function listenGenColorPalette() {
     $('#search-results').on('click','.generate-palette', event => {
         const imgUrl= $(event.currentTarget).closest('.photo-container').children('img').attr('src');
         getColorPalette(imgUrl);
         $('#color-palette').css('min-height', '100vh');
+        $('.target-image-container').empty();
+        $('.color-palette-container').empty();
         $('html, body').animate({
             scrollTop: ($('#color-palette').offset().top)
         },500);
@@ -253,6 +269,7 @@ function callListeners() {
     listenForPhotoSelect();
     listenForPaginationClick();
     listenGenColorPalette();
+    listenForClosePalette();
 }
 
 $(callListeners);
