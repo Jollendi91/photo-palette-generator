@@ -33,13 +33,13 @@ header {
     padding: 3px;
 }
 
+.photo-container:hover {
+    cursor: pointer;
+}
+
 img {
     max-width: 100%;
     max-height: 100%;
-}
-
-img:hover {
-    cursor: pointer;
 }
 
 .page-buttons {
@@ -67,7 +67,7 @@ img:hover {
     min-height: 100vh;
 }
 
-#close-palette {
+#back-to-top {
     position: absolute;
     top: 10px;
     right: 5px;

@@ -221,7 +221,7 @@ function generateColorPalette(photo) {
     `);
 
     $('.color-palette-container').empty();
-    $('#color-palette').prepend('<button id="close-palette" role="button">Try another!</button>');
+    $('#color-palette').prepend('<button id="back-to-top" role="button">Try another!</button>');
     generateBackgroundColors(backgroundColors);
     generateForegroundColors(foregroundColors);
     generateImageColors(imageColors);
@@ -248,12 +248,8 @@ function getColorPalette(imageUrl) {
     $.ajax(imageToBeExtracted);
 }
 
-function listenForClosePalette() {
-    $('#color-palette').on('click', '#close-palette', event => {
-        $('.target-image-container').empty();
-        $('.color-palette-container').empty();
-        $('#close-palette').remove();
-        $('#color-palette').hide();
+function listenForBackToTopClick() {
+    $('#color-palette').on('click', '#back-to-top', event => {
         $('html, body').animate({
             scrollTop: ($('#scroll').offset().top)
         },500);
@@ -266,6 +262,7 @@ function listenGenColorPalette() {
         const imgUrl= $(event.currentTarget).closest('.photo-container').children('img').attr('src');
         getColorPalette(imgUrl);
         $('#color-palette').show();
+        $('#back-to-top').remove();
         $('.target-image-container').empty();
         $('.color-palette-container').empty();
         $('html, body').animate({
@@ -285,7 +282,7 @@ function callListeners() {
     listenForPhotoSelect();
     listenForPaginationClick();
     listenGenColorPalette();
-    listenForClosePalette();
+    listenForBackToTopClick();
     hideElements();
 }
 
