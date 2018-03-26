@@ -12,7 +12,8 @@ function getSearchResults(searchText, callback) {
         dataType: 'json',
         success: callback,
     }
-
+    $('#search-results').show();
+    $('#search-results').append('<div id="photo-loading"><p>Searching for photos...</p></div>');
     $.ajax(UNSPLASH_SEARCH_URL, settings);
 }
 
@@ -47,19 +48,25 @@ function parseLinkHeader(header) {
 
 function renderSearchResults(data, status, jqXHR) {
     const pageLinks = jqXHR.getResponseHeader('Link');
-    const results = data.results.map((photo, index) => renderPhoto(photo));
-    $('#search-results').html(results);
+    if (data.results.length == 0) {
+        $('#search-results').html('<div id="no-results"><h2>Your search yielded no results, please try again!</h2></div>');
+    } else {
+        const results = data.results.map((photo, index) => renderPhoto(photo));
 
-    links = parseLinkHeader(pageLinks);
+        $('#search-results').html(results);
 
-    $('#page-buttons').html('');
+        links = parseLinkHeader(pageLinks);
+        $('.page-buttons').show();
 
-    if (links.prev) {
-        $('#page-buttons').append(`<button id="prev">Previous</button>`);
-    }
+        $('.page-buttons').html('');
 
-    if (links.next) {
-        $('#page-buttons').append(`<button id="next">Next</button>`);
+        if (links.prev) {
+            $('.page-buttons').append(`<button id="prev" role="button">Previous</button>`);
+        }
+
+        if (links.next) {
+            $('.page-buttons').append(`<button id="next" role="button">Next</button>`);
+        }
     }
 }
 
@@ -68,11 +75,11 @@ function listenForPaginationClick() {
         success: renderSearchResults
     }
 
-    $('#page-buttons').on('click', '#prev', event => {
+    $('.page-buttons').on('click', '#prev', event => {
         $.ajax(links.prev, settings);
     });
 
-    $('#page-buttons').on('click', '#next', event => {
+    $('.page-buttons').on('click', '#next', event => {
         $.ajax(links.next, settings);
     });
 }
@@ -82,7 +89,8 @@ function listenForPhotoSearchClick() {
     //this listens for a click on the photo search form
     $('#photo-search-form').submit(event => {
         event.preventDefault();
-        console.log("Search form was submitted");
+        $('#search-results').empty();
+        $('.page-buttons').empty();
         let searchTerm = $('#search-input').val();
         $('#search-input').val('');
         console.log(searchTerm);
@@ -97,7 +105,7 @@ function renderPhotoButtons(selectedImg) {
     $(selectedImg).parent('.photo-container').children('.button-container').html(`
     <div class="target-photo-buttons">
         <p>Photo by <a  href="${unsplashUserLink}?utm_source=photo_palette&utm_medium=referral" target="_blank">${userName}</a> on <a href="https://unsplash.com/?utm_source=photo_palette&utm_medium=referral" target="_blank">Unsplash</a></p>
-        <button class="button generate-palette">Generate Color Palette</button>
+        <button class="button generate-palette" role="button">Generate Color Palette</button>
     </div>
     `)
 }
@@ -206,12 +214,14 @@ function generateColorPalette(photo) {
     const foregroundColors = photoColors.foreground_colors;
     const photoImage = photo.results[0].image;
 
+    $('#palette-loading').remove();
     $('.target-image-container').empty();
     $('.target-image-container').append(`
         <img src="${photoImage}">
     `);
 
     $('.color-palette-container').empty();
+    $('#color-palette').prepend('<button id="close-palette" role="button">Try another!</button>');
     generateBackgroundColors(backgroundColors);
     generateForegroundColors(foregroundColors);
     generateImageColors(imageColors);
@@ -234,18 +244,40 @@ function getColorPalette(imageUrl) {
         success: generateColorPalette
     }
 
+    $('#color-palette').append('<div id="palette-loading"><p>Extracting colors...</p></div>');    
     $.ajax(imageToBeExtracted);
+}
+
+function listenForClosePalette() {
+    $('#color-palette').on('click', '#close-palette', event => {
+        $('.target-image-container').empty();
+        $('.color-palette-container').empty();
+        $('#close-palette').remove();
+        $('#color-palette').hide();
+        $('html, body').animate({
+            scrollTop: ($('#scroll').offset().top)
+        },500);
+
+    });
 }
 
 function listenGenColorPalette() {
     $('#search-results').on('click','.generate-palette', event => {
         const imgUrl= $(event.currentTarget).closest('.photo-container').children('img').attr('src');
         getColorPalette(imgUrl);
-        $('#color-palette').css('min-height', '100vh');
+        $('#color-palette').show();
+        $('.target-image-container').empty();
+        $('.color-palette-container').empty();
         $('html, body').animate({
             scrollTop: ($('#color-palette').offset().top)
         },500);
     });
+}
+
+function hideElements() {
+    $('#color-palette').hide();
+    $('.page-buttons').hide();
+    $('#search-results').hide();
 }
 
 function callListeners() {
@@ -253,6 +285,8 @@ function callListeners() {
     listenForPhotoSelect();
     listenForPaginationClick();
     listenGenColorPalette();
+    listenForClosePalette();
+    hideElements();
 }
 
 $(callListeners);
