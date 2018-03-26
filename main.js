@@ -12,7 +12,8 @@ function getSearchResults(searchText, callback) {
         dataType: 'json',
         success: callback,
     }
-
+    $('#search-results').show();
+    $('#search-results').append('<div id="photo-loading"><p>Searching for photos...</p></div>');
     $.ajax(UNSPLASH_SEARCH_URL, settings);
 }
 
@@ -47,19 +48,25 @@ function parseLinkHeader(header) {
 
 function renderSearchResults(data, status, jqXHR) {
     const pageLinks = jqXHR.getResponseHeader('Link');
-    const results = data.results.map((photo, index) => renderPhoto(photo));
-    $('#search-results').html(results);
+    if (data.results.length == 0) {
+        $('#search-results').html('<div id="no-results"><h2>Your search yielded no results, please try again!</h2></div>');
+    } else {
+        const results = data.results.map((photo, index) => renderPhoto(photo));
 
-    links = parseLinkHeader(pageLinks);
+        $('#search-results').html(results);
 
-    $('.page-buttons').html('');
+        links = parseLinkHeader(pageLinks);
+        $('.page-buttons').show();
 
-    if (links.prev) {
-        $('.page-buttons').append(`<button id="prev" role="button">Previous</button>`);
-    }
+        $('.page-buttons').html('');
 
-    if (links.next) {
-        $('.page-buttons').append(`<button id="next" role="button">Next</button>`);
+        if (links.prev) {
+            $('.page-buttons').append(`<button id="prev" role="button">Previous</button>`);
+        }
+
+        if (links.next) {
+            $('.page-buttons').append(`<button id="next" role="button">Next</button>`);
+        }
     }
 }
 
@@ -82,7 +89,8 @@ function listenForPhotoSearchClick() {
     //this listens for a click on the photo search form
     $('#photo-search-form').submit(event => {
         event.preventDefault();
-        console.log("Search form was submitted");
+        $('#search-results').empty();
+        $('.page-buttons').empty();
         let searchTerm = $('#search-input').val();
         $('#search-input').val('');
         console.log(searchTerm);
@@ -206,6 +214,7 @@ function generateColorPalette(photo) {
     const foregroundColors = photoColors.foreground_colors;
     const photoImage = photo.results[0].image;
 
+    $('#palette-loading').remove();
     $('.target-image-container').empty();
     $('.target-image-container').append(`
         <img src="${photoImage}">
@@ -235,6 +244,7 @@ function getColorPalette(imageUrl) {
         success: generateColorPalette
     }
 
+    $('#color-palette').append('<div id="palette-loading"><p>Extracting colors...</p></div>');    
     $.ajax(imageToBeExtracted);
 }
 
@@ -243,9 +253,9 @@ function listenForClosePalette() {
         $('.target-image-container').empty();
         $('.color-palette-container').empty();
         $('#close-palette').remove();
-        $('#color-palette').css('min-height', '0');
+        $('#color-palette').hide();
         $('html, body').animate({
-            scrollTop: ($('#search-results').offset().top)
+            scrollTop: ($('#scroll').offset().top)
         },500);
 
     });
@@ -255,7 +265,7 @@ function listenGenColorPalette() {
     $('#search-results').on('click','.generate-palette', event => {
         const imgUrl= $(event.currentTarget).closest('.photo-container').children('img').attr('src');
         getColorPalette(imgUrl);
-        $('#color-palette').css('min-height', '100vh');
+        $('#color-palette').show();
         $('.target-image-container').empty();
         $('.color-palette-container').empty();
         $('html, body').animate({
@@ -264,12 +274,19 @@ function listenGenColorPalette() {
     });
 }
 
+function hideElements() {
+    $('#color-palette').hide();
+    $('.page-buttons').hide();
+    $('#search-results').hide();
+}
+
 function callListeners() {
     listenForPhotoSearchClick();
     listenForPhotoSelect();
     listenForPaginationClick();
     listenGenColorPalette();
     listenForClosePalette();
+    hideElements();
 }
 
 $(callListeners);

@@ -12,8 +12,20 @@ header {
 
 /* Search Results Section */
 
+#photo-loading {
+    font-size: 20px;
+    column-span: all;
+    text-align: center;
+}
+
+#no-results {
+    position: absolute;
+    left: 15px;
+}
+
 #search-results {
     text-align: center;
+    position: relative;
 }
 
 .photo-container {
@@ -44,9 +56,15 @@ img:hover {
 
 /* Color Palette Section */
 
+#palette-loading {
+    font-size: 30px;
+    margin: auto;
+}
+
 #color-palette {
     position: relative;
     padding-top: 30px;
+    min-height: 100vh;
 }
 
 #close-palette {
