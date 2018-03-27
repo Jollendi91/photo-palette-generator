@@ -25,7 +25,7 @@ function renderPhoto(photo) {
 
     return `
         <div class="photo-container">
-          <img src="${photoUrl}" data-username="${userName}" data-unsplash-user="${unsplashUserLink}" data-unsplash="${unsplashLink}" alt="A photo by ${userName}">
+          <img src="${photoUrl}" data-username="${userName}" data-unsplash-user="${unsplashUserLink}" data-unsplash="${unsplashLink}" alt="A photo by ${userName}" role="button" tabindex="-1" onclick="renderPhotoButtons(event)">
           <div class="button-container">
           </div>
         </div>
@@ -98,26 +98,42 @@ function listenForPhotoSearchClick() {
     });
 }
 
-function renderPhotoButtons(selectedImg) {
+function renderPhotoButtons(event) {
+    console.log(event);
+    const selectedImg = event.target.firstElementChild || event.target;
+    const imageUrl = $(selectedImg).attr('src');
     const userName = $(selectedImg).attr('data-username');
     const unsplashUserLink = $(selectedImg).attr('data-unsplash-user');
     $('.button-container').html('');
     $(selectedImg).parent('.photo-container').children('.button-container').html(`
     <div class="target-photo-buttons">
         <p>Photo by <a  href="${unsplashUserLink}?utm_source=photo_palette&utm_medium=referral" target="_blank">${userName}</a> on <a href="https://unsplash.com/?utm_source=photo_palette&utm_medium=referral" target="_blank">Unsplash</a></p>
-        <button class="button generate-palette" role="button">Generate Color Palette</button>
+        <button class="button generate-palette">Generate Color Palette</button>
     </div>
     `)
 }
 
+function a11yClick(event){
+    if(event.type === 'click'){
+        return true;
+    }
+    else if(event.type === 'keydown'){
+        var code = event.key;
+        if((code === " ")|| (code === "Enter")){
+            event.preventDefault();
+            return true;
+        }
+    }
+    else{
+        return false;
+    }
+}
+
 function listenForPhotoSelect() {
-    //this listens for a click on a search result photo
-    $('#search-results').on('click', 'img', event => {
-        const selectedImg = event.currentTarget;
-        console.log(selectedImg);
-        const imageUrl = $(selectedImg).attr('src');
-       // getColorPalette(imageUrl);
-       renderPhotoButtons(selectedImg);
+    $('#search-results').on('click keydown', 'img', event => {
+        if (a11yClick(event) === true) {
+            renderPhotoButtons(event);
+        }
     });
 }
 
@@ -217,7 +233,7 @@ function generateColorPalette(photo) {
     $('#palette-loading').remove();
     $('.target-image-container').empty();
     $('.target-image-container').append(`
-        <img src="${photoImage}">
+        <img src="${photoImage}" alt="Your selected photo">
     `);
 
     $('.color-palette-container').empty();
@@ -228,7 +244,6 @@ function generateColorPalette(photo) {
 }
 
 function getColorPalette(imageUrl) {
-    //this makes a call to the color extractor api and returns a set of colors in the photo
     const imageToBeExtracted = {
         url: 'https://api.imagga.com/v1/colors',
         "async": true,
