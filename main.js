@@ -25,7 +25,7 @@ function renderPhoto(photo) {
 
     return `
         <div class="photo-container">
-          <img src="${photoUrl}" data-username="${userName}" data-unsplash-user="${unsplashUserLink}" data-unsplash="${unsplashLink}" alt="A photo by ${userName}" role="button" tabindex="0" onclick="renderPhotoButtons(event)">
+          <img src="${photoUrl}" data-username="${userName}" data-unsplash-user="${unsplashUserLink}" data-unsplash="${unsplashLink}" alt="A photo by ${userName}" role="button" tabindex="-1" onclick="renderPhotoButtons(event)">
           <div class="button-container">
           </div>
         </div>
