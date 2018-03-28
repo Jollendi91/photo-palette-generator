@@ -5,23 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Photo Palette</title>
-
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Comfortaa:300,400|Raleway" rel="stylesheet"> 
     <link rel="stylesheet" type="text/css" href="main.css">
 </head>
 <body>
     <header role="banner">
-        <h1>Photo Palette</h1>
-        <ol>
-            <li>Search for a photo</li>
-            <li>Select one that catches your eye</li>
-            <li>Get a color palette from the selected photo</li>
-        </ol>
-        <form id="photo-search-form">
-            <label for="search-input">
-                <input type="text" id="search-input" name="search-term" aria-label="Photo Search">
-            </label>
-            <button type="submit" id="search-button">Search</button>
-        </form>
+        <section id="header-container">
+            <h1>Photo Palette</h1>
+            <h2>Find your color inspiration</h2>
+            <p class="intro">Photo Palette extracts the colors from your favorite photos so you can use them in your designs</p>
+        </section>
+        <section id="search-container">
+            <form id="photo-search-form">
+                <label for="search-input">
+                    <input type="text" id="search-input" name="search-term" aria-label="Photo Search" placeholder="Search for an image">
+                </label>
+                <button type="submit" id="search-button">Search</button>
+            </form>
+        </section>
+        <div id="particle-container" aria-hidden="true"></div>
     </header>
     <main role="main">
         <div class="page-buttons" id="scroll">
@@ -36,6 +39,7 @@
         </section>
     </main>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
     <script src="main.js"></script>
 </body>
 </html>
