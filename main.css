@@ -10,7 +10,6 @@ header {
     height: 100vh;
     display: flex;
     flex-direction: column;
-    background: url("https://source.unsplash.com/mBHuEkka5wM/4964 × 3314");
     background-size: cover;
     background-position: left;
 }
