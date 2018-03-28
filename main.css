@@ -6,6 +6,7 @@
 /* Search header */
 
 header {
+    font-family: 'Raleway', sans-serif;
     text-align: center;
     height: 100vh;
     display: flex;
@@ -26,10 +27,6 @@ h1, h2, p, #search-button {
 h1 {
     font-family: 'Comfortaa', display;
     font-size: 45px;
-}
-
-h2, p, #search-input {
-    font-family: 'Raleway', sans-serif;
 }
 
 h2 {
@@ -75,7 +72,7 @@ p {
     background-color: #3B7A8F;
     border-radius: 12px;
     border: 0;
-    box-shadow: 0px 0px 15px -5px rgba(0,0,0,.8);
+    box-shadow: 0px 0px 15px -5px rgba(0,0,0,.7);
     cursor: pointer;
 }
 
@@ -199,6 +196,49 @@ h2 {
 /* Media Queries */
 
 @media only screen and (min-width: 600px) {
+
+    /*Header*/
+    h1 {
+        font-size: 60px;
+        font-weight: 300;
+    }
+
+    h2 {
+        font-size: 25px;
+        top: -35px;
+    }
+
+    .intro, #search-button {
+        font-size: 20px;
+    }
+
+    .intro {
+        max-width: 530px;
+        margin: auto;
+        top: 30%;
+    }
+
+    #photo-search-form {
+        margin-top: 10px;
+    }
+
+    #search-container {
+        top: 19%;
+    }
+
+    #search-input {
+        border-radius: 30px;
+        padding: 10px 10px;
+        max-width: 325px;
+    }
+
+    #search-button {
+        padding: 5px 12px;
+        margin: 0 0 0 5px;
+        display: inline-block;
+        border-radius: 23px;
+    }
+
     #search-results {
         column-count: 2;
         column-gap: 0;
