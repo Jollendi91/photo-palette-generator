@@ -56,14 +56,14 @@ p {
 }
 
 #search-input {
-    box-shadow: inset 0px 0px 14px -11px rgba(0,0,0,0.75), 0px 0px 15px -9px rgba(0,0,0,.8);
+    box-shadow: inset 0px 0px 6px -3px rgba(0,0,0,0.75), 0px 0px 15px -9px rgba(0,0,0,.8);
     border: 1px transparent;
-    border-radius: 12px;
-    padding: 3px 10px;
-    width: 60%;
+    border-radius: 15px;
+    padding: 5px 10px;
+    width: 65%;
     margin-top: 5px;
     font-family: 'raleway';
-    background-color: #e4e4e4;
+    background-color: #dedede;
 }
 
 #search-button {
@@ -76,6 +76,15 @@ p {
     border-radius: 12px;
     border: 0;
     box-shadow: 0px 0px 15px -5px rgba(0,0,0,.8);
+    cursor: pointer;
+}
+
+#search-button:hover {
+    background-color: #4C94AC;
+}
+
+#search-button:active {
+    background-color: #2B5A6A;
 }
 
 /* Header Particle Background */
