@@ -20,12 +20,11 @@ header {
 }
 
 h1, h2, p, #search-button {
-    color: whitesmoke;
+    color: #191919;
 }
 
 h1 {
     font-family: 'Comfortaa', display;
-    color: whitesmoke;
     font-size: 45px;
 }
 
@@ -65,11 +64,11 @@ p {
     margin-top: 5px;
     font-family: 'raleway';
     background-color: #e4e4e4;
-    color: #aaa;
 }
 
 #search-button {
     font-size: 20px;
+    color: whitesmoke;
     display: block;
     margin: 15px auto;
     padding: 1px 15px;
