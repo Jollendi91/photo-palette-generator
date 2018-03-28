@@ -68,11 +68,11 @@ function renderSearchResults(data, status, jqXHR) {
         $('.page-buttons').html('');
 
         if (links.prev) {
-            $('.page-buttons').append(`<button id="prev" role="button">Previous</button>`);
+            $('.page-buttons').append(`<button id="prev" class="page-button" role="button">Previous</button>`);
         }
 
         if (links.next) {
-            $('.page-buttons').append(`<button id="next" role="button">Next</button>`);
+            $('.page-buttons').append(`<button id="next" class="page-button" role="button">Next</button>`);
         }
     }
 }

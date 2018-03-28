@@ -3,10 +3,13 @@
     box-sizing: border-box;
 }
 
+header, main {
+    font-family: 'Raleway', sans-serif;
+}
+
 /* Search header */
 
 header {
-    font-family: 'Raleway', sans-serif;
     text-align: center;
     height: 100vh;
     display: flex;
@@ -63,7 +66,7 @@ p {
     background-color: #dedede;
 }
 
-#search-button {
+#search-button, .page-button, .button.generate-palette {
     font-size: 20px;
     color: whitesmoke;
     display: block;
@@ -76,11 +79,11 @@ p {
     cursor: pointer;
 }
 
-#search-button:hover {
+#search-button:hover, .page-button:hover {
     background-color: #4C94AC;
 }
 
-#search-button:active {
+#search-button:active, .page-button:active {
     background-color: #2B5A6A;
 }
 
@@ -113,11 +116,13 @@ canvas {
 #search-results {
     text-align: center;
     position: relative;
+    margin: 0 30px;
 }
 
 .photo-container {
     width: 100%;
-    padding: 3px;
+    margin-bottom: 15px;
+    box-shadow: 0px 0px 10px -4px;
 }
 
 .photo-container:hover {
@@ -132,6 +137,11 @@ img {
 .page-buttons {
     text-align: center;
     padding: 20px;
+    display: flex;
+}
+
+.page-button {
+    display: inline-block;
 }
 
 /* Selected photo */
@@ -139,6 +149,26 @@ img {
 .target-photo-buttons p {
     line-height: normal;
     margin-top: 5px;
+}
+
+a {
+    text-decoration: none;
+    color: #3B7A8F;
+}
+
+.button.generate-palette {
+    display: initial;
+    margin: 0 auto 15px;
+    background-color: #9C5063;
+    box-shadow: 0px 0px 7px -2px rgba(0,0,0,.7);  
+}
+
+.button.generate-palette:hover {
+    background-color: #BC657B;
+}
+
+.button.generate-palette:active {
+    background-color: #713C4A;
 }
 
 /* Color Palette Section */
@@ -239,9 +269,11 @@ h2 {
         border-radius: 23px;
     }
 
+    /* Search Results */
+
     #search-results {
         column-count: 2;
-        column-gap: 0;
+        column-gap: 15px;
         line-height: 0;
     }
 
