@@ -7,7 +7,25 @@
 
 header {
     text-align: center;
-    padding-bottom: 20px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: url("https://source.unsplash.com/mBHuEkka5wM/4964 × 3314");
+    background-size: cover;
+    background-position: left;
+}
+
+/* Header Particle Background */
+canvas {
+    display: block;
+    vertical-align: bottom;
+  }
+
+  #particle-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
 }
 
 /* Search Results Section */
