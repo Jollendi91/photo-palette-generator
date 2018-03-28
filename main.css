@@ -14,6 +14,71 @@ header {
     background-position: left;
 }
 
+#header-container {
+    position: relative;
+    top: 10%;
+}
+
+h1, h2, p, #search-button {
+    color: whitesmoke;
+}
+
+h1 {
+    font-family: 'Comfortaa', display;
+    color: whitesmoke;
+    font-size: 45px;
+}
+
+h2, p, #search-input {
+    font-family: 'Raleway', sans-serif;
+}
+
+h2 {
+    font-size: 23px;
+    position: relative;
+    top: -25px;
+    font-weight: 500;
+}
+
+p {
+    font-size: 18px;
+}
+
+.intro {
+    padding: 0 30px;
+    position: relative;
+    top: 15%;
+    line-height: 1.25;
+}
+
+#search-container {
+    position: relative;
+    top: 15%;
+}
+
+#search-input {
+    box-shadow: inset 0px 0px 14px -11px rgba(0,0,0,0.75), 0px 0px 15px -9px rgba(0,0,0,.8);
+    border: 1px transparent;
+    border-radius: 12px;
+    padding: 3px 10px;
+    width: 60%;
+    margin-top: 5px;
+    font-family: 'raleway';
+    background-color: #e4e4e4;
+    color: #aaa;
+}
+
+#search-button {
+    font-size: 20px;
+    display: block;
+    margin: 15px auto;
+    padding: 1px 15px;
+    background-color: #3B7A8F;
+    border-radius: 12px;
+    border: 0;
+    box-shadow: 0px 0px 15px -5px rgba(0,0,0,.8);
+}
+
 /* Header Particle Background */
 canvas {
     display: block;
