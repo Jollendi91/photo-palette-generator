@@ -51,13 +51,14 @@ function parseLinkHeader(header) {
 function scrollToResults() {
     $('html, body').animate({
         scrollTop: ($('#search-results').offset().top)
-    },500);
+    }, 500);
 }
 
 function renderSearchResults(data, status, jqXHR) {
     const pageLinks = jqXHR.getResponseHeader('Link');
     $('#no-results').remove();
     if (data.results.length == 0) {
+        $('#photo-loading').remove();
         $('#search-container').append('<div id="no-results"><h2>Your search yielded no results, please try again!</h2></div>');
     } else {
         const results = data.results.map((photo) => renderPhoto(photo));
@@ -104,7 +105,7 @@ function listenForPhotoSearchClick() {
         let searchTerm = $('#search-input').val();
         $('#search-input').val('');
         getSearchResults(searchTerm, renderSearchResults);
-        
+
     });
 }
 
@@ -121,18 +122,18 @@ function renderPhotoButtons(event) {
     `)
 }
 
-function a11yClick(event){
-    if(event.type === 'click'){
+function a11yClick(event) {
+    if (event.type === 'click') {
         return true;
     }
-    else if(event.type === 'keydown'){
+    else if (event.type === 'keydown') {
         var code = event.key;
-        if((code === " ")|| (code === "Enter")){
+        if ((code === " ") || (code === "Enter")) {
             event.preventDefault();
             return true;
         }
     }
-    else{
+    else {
         return false;
     }
 }
@@ -145,6 +146,10 @@ function listenForPhotoSelect() {
     });
 }
 
+function setFontColor() {
+    
+}
+
 function renderColor(color) {
     const colorRed = color.r;
     const colorGreen = color.g;
@@ -152,15 +157,27 @@ function renderColor(color) {
     const colorHex = color.html_code;
     const colorId = colorHex.replace(/\#/g, '');
 
-    $(`#${colorId}`).css('background-color', `${colorHex}`);
+    $(`#${colorId}`).css('background-color', `#${colorId}`);
 
     $(`#${colorId}-container`).append(`
-        <div class="color-values">
+        <div id="${colorId}-font" class="color-values">
             <p>rgb(${colorRed}, ${colorGreen}, ${colorBlue})</p>
             <p>Hex: ${colorHex}</p>
         </div>
     `);
-} 
+
+    let rgb = [colorRed, colorGreen, colorBlue];
+
+    console.log(rgb);
+    let o = Math.round(((parseInt(rgb[0]) * 299) + (parseInt(rgb[1]) * 587) + (parseInt(rgb[2]) * 114)) / 1000);
+    console.log(o);
+
+    if (o >= 128) {
+        $(`#${colorId}-font p`).css('color', 'black');
+    } else {
+        $(`#${colorId}-font p`).css('color', 'white');
+    };
+}
 
 function generateBackgroundColors(colors) {
     if (colors.length !== 0) {
@@ -258,7 +275,7 @@ function getColorPalette(imageUrl) {
         success: generateColorPalette
     }
 
-    $('#color-palette').append('<div id="palette-loading"><p>Extracting colors...</p></div>');    
+    $('#color-palette').append('<div id="palette-loading"><p>Extracting colors...</p></div>');
     $.ajax(imageToBeExtracted);
 }
 
@@ -266,14 +283,14 @@ function listenForBackToTopClick() {
     $('#color-palette').on('click', '#back-to-top', () => {
         $('html, body').animate({
             scrollTop: ($('#scroll').offset().top)
-        },500);
+        }, 500);
 
     });
 }
 
 function listenGenColorPalette() {
-    $('#search-results').on('click','.generate-palette', event => {
-        const imgUrl= $(event.currentTarget).closest('.photo-container').children('img').attr('src');
+    $('#search-results').on('click', '.generate-palette', event => {
+        const imgUrl = $(event.currentTarget).closest('.photo-container').children('img').attr('src');
         getColorPalette(imgUrl);
         $('#color-palette').show();
         $('#back-to-top').remove();
@@ -281,7 +298,7 @@ function listenGenColorPalette() {
         $('.color-palette-container').empty();
         $('html, body').animate({
             scrollTop: ($('#color-palette').offset().top)
-        },500);
+        }, 500);
     });
 }
 
@@ -308,111 +325,111 @@ const particlesJS = window.particlesJS;
 
 particlesJS("particle-container", {
     "particles": {
-      "number": {
-        "value": 50,
-        "density": {
-          "enable": true,
-          "value_area": 1499.3805191013182
-        }
-      },
-      "color": {
-        "value": "random"
-      },
-      "shape": {
-        "type": "polygon",
-        "stroke": {
-          "width": 0,
-          "color": "#000000"
+        "number": {
+            "value": 50,
+            "density": {
+                "enable": true,
+                "value_area": 1499.3805191013182
+            }
         },
-        "polygon": {
-          "nb_sides": 4
+        "color": {
+            "value": "random"
         },
-        "image": {
-          "src": "img/github.svg",
-          "width": 100,
-          "height": 100
+        "shape": {
+            "type": "polygon",
+            "stroke": {
+                "width": 0,
+                "color": "#000000"
+            },
+            "polygon": {
+                "nb_sides": 4
+            },
+            "image": {
+                "src": "img/github.svg",
+                "width": 100,
+                "height": 100
+            }
+        },
+        "opacity": {
+            "value": 0.6333477640418815,
+            "random": true,
+            "anim": {
+                "enable": false,
+                "speed": 1,
+                "opacity_min": 0.1,
+                "sync": false
+            }
+        },
+        "size": {
+            "value": 48.10236182596568,
+            "random": true,
+            "anim": {
+                "enable": false,
+                "speed": 24.36231636904035,
+                "size_min": 0,
+                "sync": true
+            }
+        },
+        "line_linked": {
+            "enable": false,
+            "distance": 150,
+            "color": "#ffffff",
+            "opacity": 0.4,
+            "width": 1
+        },
+        "move": {
+            "enable": true,
+            "speed": 0.5,
+            "direction": "none",
+            "random": true,
+            "straight": false,
+            "out_mode": "out",
+            "bounce": false,
+            "attract": {
+                "enable": false,
+                "rotateX": 2485.28869434156,
+                "rotateY": 1200
+            }
         }
-      },
-      "opacity": {
-        "value": 0.6333477640418815,
-        "random": true,
-        "anim": {
-          "enable": false,
-          "speed": 1,
-          "opacity_min": 0.1,
-          "sync": false
-        }
-      },
-      "size": {
-        "value": 48.10236182596568,
-        "random": true,
-        "anim": {
-          "enable": false,
-          "speed": 24.36231636904035,
-          "size_min": 0,
-          "sync": true
-        }
-      },
-      "line_linked": {
-        "enable": false,
-        "distance": 150,
-        "color": "#ffffff",
-        "opacity": 0.4,
-        "width": 1
-      },
-      "move": {
-        "enable": true,
-        "speed": 0.5,
-        "direction": "none",
-        "random": true,
-        "straight": false,
-        "out_mode": "out",
-        "bounce": false,
-        "attract": {
-          "enable": false,
-          "rotateX": 2485.28869434156,
-          "rotateY": 1200
-        }
-      }
     },
     "interactivity": {
-      "detect_on": "canvas",
-      "events": {
-        "onhover": {
-          "enable": false,
-          "mode": "repulse"
+        "detect_on": "canvas",
+        "events": {
+            "onhover": {
+                "enable": false,
+                "mode": "repulse"
+            },
+            "onclick": {
+                "enable": false,
+                "mode": "push"
+            },
+            "resize": true
         },
-        "onclick": {
-          "enable": false,
-          "mode": "push"
-        },
-        "resize": true
-      },
-      "modes": {
-        "grab": {
-          "distance": 400,
-          "line_linked": {
-            "opacity": 1
-          }
-        },
-        "bubble": {
-          "distance": 400,
-          "size": 40,
-          "duration": 2,
-          "opacity": 8,
-          "speed": 3
-        },
-        "repulse": {
-          "distance": 200,
-          "duration": 0.4
-        },
-        "push": {
-          "particles_nb": 4
-        },
-        "remove": {
-          "particles_nb": 2
+        "modes": {
+            "grab": {
+                "distance": 400,
+                "line_linked": {
+                    "opacity": 1
+                }
+            },
+            "bubble": {
+                "distance": 400,
+                "size": 40,
+                "duration": 2,
+                "opacity": 8,
+                "speed": 3
+            },
+            "repulse": {
+                "distance": 200,
+                "duration": 0.4
+            },
+            "push": {
+                "particles_nb": 4
+            },
+            "remove": {
+                "particles_nb": 2
+            }
         }
-      }
     },
     "retina_detect": true
-  });
+});

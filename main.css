@@ -33,7 +33,7 @@ h1 {
     font-size: 45px;
 }
 
-h2 {
+#sub-header {
     font-size: 23px;
     position: relative;
     top: -25px;
@@ -111,11 +111,6 @@ canvas {
     font-size: 20px;
     column-span: all;
     text-align: center;
-}
-
-#no-results {
-    position: absolute;
-    left: 15px;
 }
 
 #search-results {
@@ -202,17 +197,17 @@ a {
     text-align: center;
 }
 
-.target-image-container {
-    text-align: center;
-    padding: 10px;
-}
-
 h2 {
     margin-bottom: 5px;
 }
 
+.palette-header {
+    padding-bottom: 5px;
+}
+
 .color {
     display: inline-block;
+    position: relative;
 }
 
 .color-block {
@@ -224,10 +219,14 @@ h2 {
 
 .color-values {
     text-align: center;
+    position: absolute;
+    top: 34%;
+    width: 100%;
 }
 
 .color-values p {
     margin: 5px;
+    font-size: 17px;
 }
 
 
