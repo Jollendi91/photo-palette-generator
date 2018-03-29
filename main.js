@@ -1,5 +1,7 @@
+"use strict";
+
 const UNSPLASH_SEARCH_URL = "https://api.unsplash.com/search/photos";
-let pageNumber = 1;
+let links;
 
 function getSearchResults(searchText, callback) {
     const settings = {
@@ -11,7 +13,7 @@ function getSearchResults(searchText, callback) {
         },
         dataType: 'json',
         success: callback,
-    }
+    };
     $('#search-results').show();
     $('#search-results').append('<div id="photo-loading"><p>Searching for photos...</p></div>');
     $.ajax(UNSPLASH_SEARCH_URL, settings);
@@ -29,7 +31,7 @@ function renderPhoto(photo) {
           <div class="button-container">
           </div>
         </div>
-    `
+    `;
 }
 
 function parseLinkHeader(header) {
@@ -54,10 +56,11 @@ function scrollToResults() {
 
 function renderSearchResults(data, status, jqXHR) {
     const pageLinks = jqXHR.getResponseHeader('Link');
+    $('#no-results').remove();
     if (data.results.length == 0) {
-        $('#search-results').html('<div id="no-results"><h2>Your search yielded no results, please try again!</h2></div>');
+        $('#search-container').append('<div id="no-results"><h2>Your search yielded no results, please try again!</h2></div>');
     } else {
-        const results = data.results.map((photo, index) => renderPhoto(photo));
+        const results = data.results.map((photo) => renderPhoto(photo));
 
         $('#search-results').html(results);
         scrollToResults();
@@ -82,11 +85,11 @@ function listenForPaginationClick() {
         success: renderSearchResults
     }
 
-    $('.page-buttons').on('click', '#prev', event => {
+    $('.page-buttons').on('click', '#prev', () => {
         $.ajax(links.prev, settings);
     });
 
-    $('.page-buttons').on('click', '#next', event => {
+    $('.page-buttons').on('click', '#next', () => {
         $.ajax(links.next, settings);
     });
 }
@@ -106,9 +109,7 @@ function listenForPhotoSearchClick() {
 }
 
 function renderPhotoButtons(event) {
-    console.log(event);
     const selectedImg = event.target.firstElementChild || event.target;
-    const imageUrl = $(selectedImg).attr('src');
     const userName = $(selectedImg).attr('data-username');
     const unsplashUserLink = $(selectedImg).attr('data-unsplash-user');
     $('.button-container').html('');
@@ -161,14 +162,6 @@ function renderColor(color) {
     `);
 } 
 
-function createColorContainer(color) {
-    const colorId = color.html_code.replace(/\#/g, '');
-    return `
-    <div class="color" id="${colorId}">
-    </div>
-    `;
-}
-
 function generateBackgroundColors(colors) {
     if (colors.length !== 0) {
         $('.color-palette-container').append(`
@@ -176,7 +169,7 @@ function generateBackgroundColors(colors) {
                 <h2 class="palette-header">Background Colors</h2>
             </div>
         `);
-        colors.map((color, index) => {
+        colors.map((color) => {
             const colorId = color.html_code.replace(/\#/g, '');
             $('.background-color').append(`
                 <div class="color" id="${colorId}-container">
@@ -196,7 +189,7 @@ function generateForegroundColors(colors) {
                 <h2 class="palette-header">Foreground Colors</h2>
             </div>
         `);
-        colors.map((color, index) => {
+        colors.map((color) => {
             const colorId = color.html_code.replace(/\#/g, '');
             $('.foreground-color').append(`
                 <div class="color" id="${colorId}-container">
@@ -216,7 +209,7 @@ function generateImageColors(colors) {
                 <h2 class="palette-header">Image Colors</h2>
             </div>
         `);
-        colors.map((color, index) => {
+        colors.map((color) => {
             const colorId = color.html_code.replace(/\#/g, '');
             $('.image-color').append(`
                 <div class="color" id="${colorId}-container">
@@ -230,8 +223,7 @@ function generateImageColors(colors) {
 }
 
 function generateColorPalette(photo) {
-    console.log(photo);
-    const photoColors = photo.results[0].info;
+    const photoColors = photo.results[0].info
     const backgroundColors = photoColors.background_colors;
     const imageColors = photoColors.image_colors;
     const foregroundColors = photoColors.foreground_colors;
@@ -271,7 +263,7 @@ function getColorPalette(imageUrl) {
 }
 
 function listenForBackToTopClick() {
-    $('#color-palette').on('click', '#back-to-top', event => {
+    $('#color-palette').on('click', '#back-to-top', () => {
         $('html, body').animate({
             scrollTop: ($('#scroll').offset().top)
         },500);
@@ -311,6 +303,8 @@ function callListeners() {
 $(callListeners);
 
 // Particle Code 
+
+const particlesJS = window.particlesJS;
 
 particlesJS("particle-container", {
     "particles": {

@@ -21,6 +21,7 @@ header {
 #header-container {
     position: relative;
     top: 10%;
+    height: fit-content;
 }
 
 h1, h2, p, #search-button {
@@ -64,6 +65,10 @@ p {
     margin-top: 5px;
     font-family: 'raleway';
     background-color: #dedede;
+}
+
+#search-input:focus {
+    outline: none;
 }
 
 #search-button, .page-button, .button.generate-palette {
@@ -116,13 +121,14 @@ canvas {
 #search-results {
     text-align: center;
     position: relative;
+    min-height: 100vh;
     margin: 0 30px;
 }
 
 .photo-container {
     width: 100%;
     margin-bottom: 15px;
-    box-shadow: 0px 0px 10px -4px;
+    box-shadow: 0px 0px 10px -2px;
 }
 
 .photo-container:hover {
@@ -138,10 +144,12 @@ img {
     text-align: center;
     padding: 20px;
     display: flex;
+    justify-content: center;
 }
 
 .page-button {
     display: inline-block;
+    margin: 10px 5px;
 }
 
 /* Selected photo */
@@ -238,12 +246,16 @@ h2 {
         top: -35px;
     }
 
-    .intro, #search-button {
+    .intro {
+        font-size: 22px;
+    }
+
+    #search-button {
         font-size: 20px;
     }
 
     .intro {
-        max-width: 530px;
+        max-width: 576px;
         margin: auto;
         top: 30%;
     }
