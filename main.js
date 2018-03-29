@@ -50,7 +50,7 @@ function parseLinkHeader(header) {
 
 function scrollToResults() {
     $('html, body').animate({
-        scrollTop: ($('#search-results').offset().top)
+        scrollTop: ($('main').offset().top)
     }, 500);
 }
 
