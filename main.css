@@ -71,7 +71,7 @@ p {
     outline: none;
 }
 
-#search-button, .page-button, .button.generate-palette {
+#search-button, .page-button, .button.generate-palette, #back-to-top {
     font-size: 20px;
     color: whitesmoke;
     display: block;
@@ -80,7 +80,6 @@ p {
     background-color: #3B7A8F;
     border-radius: 12px;
     border: 0;
-    box-shadow: 0px 0px 15px -5px rgba(0,0,0,.7);
     cursor: pointer;
 }
 
@@ -152,6 +151,7 @@ img {
 .target-photo-buttons p {
     line-height: normal;
     margin-top: 5px;
+    padding: 0 2px;
 }
 
 a {
@@ -177,8 +177,24 @@ a {
 /* Color Palette Section */
 
 #palette-loading {
-    font-size: 30px;
     margin: auto;
+}
+
+#palette-loading p {
+    font-size: 30px;
+}
+
+#back-to-top {
+    margin: 0 auto;
+    background-color: #9C5063;
+}
+
+#back-to-top:hover {
+    background-color: #BC657B;
+}
+
+#back-to-top:active {
+    background-color: #713C4A;
 }
 
 #color-palette {
@@ -321,6 +337,7 @@ h2 {
         max-width: 50%;
         max-height: 450px;
         margin: 10px auto;
+        box-shadow: 0 10px 6px -6px #777;
     }
 
     img {
