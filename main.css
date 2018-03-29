@@ -148,6 +148,10 @@ img {
 
 /* Selected photo */
 
+.target-photo-buttons {
+    display: none;
+}
+
 .target-photo-buttons p {
     line-height: normal;
     margin-top: 5px;

@@ -120,6 +120,7 @@ function renderPhotoButtons(event) {
         <button class="button generate-palette">Generate Color Palette</button>
     </div>
     `)
+    $('.target-photo-buttons').slideDown(600, "swing");
 }
 
 function a11yClick(event) {
@@ -144,10 +145,6 @@ function listenForPhotoSelect() {
             renderPhotoButtons(event);
         }
     });
-}
-
-function setFontColor() {
-    
 }
 
 function renderColor(color) {
