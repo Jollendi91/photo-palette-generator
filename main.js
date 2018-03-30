@@ -13,10 +13,15 @@ function getSearchResults(searchText, callback) {
         },
         dataType: 'json',
         success: callback,
+        error: renderError
     };
     $('#search-results').show();
     $('#search-results').append('<div id="photo-loading"><p>Searching for photos...</p></div>');
     $.ajax(UNSPLASH_SEARCH_URL, settings);
+}
+
+function renderError() {
+    $('#search-container').append('<div id="error"><h2>There was an error, please try again!</h2></div>');
 }
 
 function renderPhoto(photo) {
@@ -59,6 +64,7 @@ function renderSearchResults(data, status, jqXHR) {
     $('#no-results').remove();
     if (data.results.length == 0) {
         $('#photo-loading').remove();
+        $('#error').remove();
         $('#search-container').append('<div id="no-results"><h2>Your search yielded no results, please try again!</h2></div>');
     } else {
         const results = data.results.map((photo) => renderPhoto(photo));
