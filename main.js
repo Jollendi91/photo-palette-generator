@@ -56,7 +56,7 @@ function parseLinkHeader(header) {
 function scrollToResults() {
     $('html, body').animate({
         scrollTop: ($('main').offset().top)
-    }, 500);
+    }, 1000, 'swing');
 }
 
 function renderSearchResults(data, status, jqXHR) {
@@ -286,7 +286,7 @@ function listenForBackToTopClick() {
     $('#color-palette').on('click', '#back-to-top', () => {
         $('html, body').animate({
             scrollTop: ($('#scroll').offset().top)
-        }, 500);
+        }, 1000, 'swing');
 
     });
 }
@@ -301,7 +301,7 @@ function listenGenColorPalette() {
         $('.color-palette-container').empty();
         $('html, body').animate({
             scrollTop: ($('#color-palette').offset().top)
-        }, 500);
+        }, 1000, 'swing');
     });
 }
 
