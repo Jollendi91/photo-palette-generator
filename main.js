@@ -13,10 +13,15 @@ function getSearchResults(searchText, callback) {
         },
         dataType: 'json',
         success: callback,
+        error: renderError
     };
     $('#search-results').show();
     $('#search-results').append('<div id="photo-loading"><p>Searching for photos...</p></div>');
     $.ajax(UNSPLASH_SEARCH_URL, settings);
+}
+
+function renderError() {
+    $('#search-container').append('<div id="error"><h2>There was an error, please try again!</h2></div>');
 }
 
 function renderPhoto(photo) {
@@ -51,7 +56,7 @@ function parseLinkHeader(header) {
 function scrollToResults() {
     $('html, body').animate({
         scrollTop: ($('main').offset().top)
-    }, 500);
+    }, 1000, 'swing');
 }
 
 function renderSearchResults(data, status, jqXHR) {
@@ -59,6 +64,7 @@ function renderSearchResults(data, status, jqXHR) {
     $('#no-results').remove();
     if (data.results.length == 0) {
         $('#photo-loading').remove();
+        $('#error').remove();
         $('#search-container').append('<div id="no-results"><h2>Your search yielded no results, please try again!</h2></div>');
     } else {
         const results = data.results.map((photo) => renderPhoto(photo));
@@ -120,6 +126,7 @@ function renderPhotoButtons(event) {
         <button class="button generate-palette">Generate Color Palette</button>
     </div>
     `)
+    $('.target-photo-buttons').slideDown(600, "swing");
 }
 
 function a11yClick(event) {
@@ -144,10 +151,6 @@ function listenForPhotoSelect() {
             renderPhotoButtons(event);
         }
     });
-}
-
-function setFontColor() {
-    
 }
 
 function renderColor(color) {
@@ -283,7 +286,7 @@ function listenForBackToTopClick() {
     $('#color-palette').on('click', '#back-to-top', () => {
         $('html, body').animate({
             scrollTop: ($('#scroll').offset().top)
-        }, 500);
+        }, 1000, 'swing');
 
     });
 }
@@ -298,7 +301,7 @@ function listenGenColorPalette() {
         $('.color-palette-container').empty();
         $('html, body').animate({
             scrollTop: ($('#color-palette').offset().top)
-        }, 500);
+        }, 1000, 'swing');
     });
 }
 
