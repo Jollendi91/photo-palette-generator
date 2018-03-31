@@ -132,17 +132,16 @@ function a11yClick(event) {
     }
 }
 
-function displayPhotoButtons(targetButton) {
-    $(targetButton).slideToggle(600, "swing");
+function displayPhotoButtons(event) {
+    let targetButtons = event.currentTarget.lastElementChild;
+     $('.target-photo-buttons').not(targetButtons).slideUp();
+    $(targetButtons).slideToggle(600, "swing");
 }
 
 function listenForPhotoSelect() {
     $('#search-results').on('click keydown', '.photo-container', event => {
         if (a11yClick(event) === true) {
-            let targetButtons = event.currentTarget.lastElementChild;
-
-            $('.target-photo-buttons').not(targetButtons).slideUp();
-            displayPhotoButtons(targetButtons);
+            displayPhotoButtons(event);
         }
     });
 }
