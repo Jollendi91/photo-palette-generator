@@ -63,7 +63,7 @@ p {
     padding: 5px 10px;
     width: 65%;
     margin-top: 5px;
-    font-family: 'raleway';
+    font-family: 'Raleway', sans-serif;
     background-color: #dedede;
 }
 
@@ -368,27 +368,3 @@ h2 {
         column-count: 5;
     }
 }
-
-/*
-
-#search-results {
-    column-count: 4;
-    column-gap: 0;
-    line-height: 0;
-}
-
-
-
-#color-palette {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.color-palette-container {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-}
-
-*/
