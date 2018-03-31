@@ -3,41 +3,10 @@
 const UNSPLASH_SEARCH_URL = "https://api.unsplash.com/search/photos";
 let links;
 
-function getSearchResults(searchText, callback) {
-    const settings = {
-        data: {
-            client_id: '8f38787e053192449fa982baa9609a354ef6e12dafc55c7d1166c486d77017a3',
-            query: searchText,
-            per_page: 30,
-            page: 1
-        },
-        dataType: 'json',
-        success: callback,
-        error: renderError
-    };
-    $('#search-results').show();
-    $('#search-results').append('<div id="photo-loading"><p>Searching for photos...</p></div>');
-    $.ajax(UNSPLASH_SEARCH_URL, settings);
-}
-
-function renderError() {
-    $('#search-container').append('<div id="error"><h2>There was an error, please try again!</h2></div>');
-}
-
-function renderPhoto(photo) {
-    const photoUrl = photo.urls.small;
-    const userName = photo.user.name;
-    const unsplashUserLink = photo.user.links.html;
-
-    return `
-    <div class="photo-container">
-        <img src="${photoUrl}" alt="A photo by ${userName}" role="button" tabindex="-1" onclick="displayPhotoButtons(event)">
-        <div class="target-photo-buttons">
-            <p>Photo by <a  href="${unsplashUserLink}?utm_source=photo_palette&utm_medium=referral" target="_blank">${userName}</a> on <a href="https://unsplash.com/?utm_source=photo_palette&utm_medium=referral" target="_blank">Unsplash</a></p>
-            <button class="button generate-palette">Generate Color Palette</button>
-        </div>
-    </div>
-    `;
+function scrollToResults() {
+    $('html, body').animate({
+        scrollTop: ($('main').offset().top)
+    }, 1000, 'swing');
 }
 
 function parseLinkHeader(header) {
@@ -54,10 +23,20 @@ function parseLinkHeader(header) {
     return links;
 }
 
-function scrollToResults() {
-    $('html, body').animate({
-        scrollTop: ($('main').offset().top)
-    }, 1000, 'swing');
+function renderPhoto(photo) {
+    const photoUrl = photo.urls.small;
+    const userName = photo.user.name;
+    const unsplashUserLink = photo.user.links.html;
+
+    return `
+    <div class="photo-container">
+        <img src="${photoUrl}" alt="A photo by ${userName}" role="button" tabindex="-1" onclick="displayPhotoButtons(event)">
+        <div class="target-photo-buttons">
+            <p>Photo by <a  href="${unsplashUserLink}?utm_source=photo_palette&utm_medium=referral" target="_blank">${userName}</a> on <a href="https://unsplash.com/?utm_source=photo_palette&utm_medium=referral" target="_blank">Unsplash</a></p>
+            <button class="button generate-palette">Generate Color Palette</button>
+        </div>
+    </div>
+    `;
 }
 
 function renderSearchResults(data, status, jqXHR) {
@@ -88,20 +67,26 @@ function renderSearchResults(data, status, jqXHR) {
     }
 }
 
-function listenForPaginationClick() {
-    const settings = {
-        success: renderSearchResults
-    }
-
-    $('.page-buttons').on('click', '#prev', () => {
-        $.ajax(links.prev, settings);
-    });
-
-    $('.page-buttons').on('click', '#next', () => {
-        $.ajax(links.next, settings);
-    });
+function renderError() {
+    $('#search-container').append('<div id="error"><h2>There was an error, please try again!</h2></div>');
 }
 
+function getSearchResults(searchText, callback) {
+    const settings = {
+        data: {
+            client_id: '8f38787e053192449fa982baa9609a354ef6e12dafc55c7d1166c486d77017a3',
+            query: searchText,
+            per_page: 30,
+            page: 1
+        },
+        dataType: 'json',
+        success: callback,
+        error: renderError
+    };
+    $('#search-results').show();
+    $('#search-results').append('<div id="photo-loading"><p>Searching for photos...</p></div>');
+    $.ajax(UNSPLASH_SEARCH_URL, settings);
+}
 
 function listenForPhotoSearchClick() {
     //this listens for a click on the photo search form
@@ -113,6 +98,20 @@ function listenForPhotoSearchClick() {
         $('#search-input').val('');
         getSearchResults(searchTerm, renderSearchResults);
 
+    });
+}
+
+function listenForPaginationClick() {
+    const settings = {
+        success: renderSearchResults
+    }
+
+    $('.page-buttons').on('click', '#prev', () => {
+        $.ajax(links.prev, settings);
+    });
+
+    $('.page-buttons').on('click', '#next', () => {
+        $.ajax(links.next, settings);
     });
 }
 
@@ -132,8 +131,8 @@ function a11yClick(event) {
     }
 }
 
-function displayPhotoButtons(targetPhoto) {
-    $(targetPhoto).slideToggle(600, "swing");
+function displayPhotoButtons(targetButton) {
+    $(targetButton).slideToggle(600, "swing");
 }
 
 function listenForPhotoSelect() {
@@ -144,6 +143,40 @@ function listenForPhotoSelect() {
             $('.target-photo-buttons').not(targetButtons).slideUp();
             displayPhotoButtons(targetButtons);
         }
+    });
+}
+
+function getColorPalette(imageUrl) {
+    const imageToBeExtracted = {
+        url: 'https://api.imagga.com/v1/colors',
+        "async": true,
+        "crossDomain": true,
+        data: {
+            url: imageUrl
+        },
+        "method": "GET",
+        "headers": {
+            "Authorization": "Basic YWNjX2QxMmYyN2E4ZjU3MTFmNzoxZjdiYjViZWE5OGNkYjVkYWM0MGQyNGI0ODQ4OGIyYg==",
+            "Cache-Control": "no-cache",
+        },
+        success: generateColorPalette
+    }
+
+    $('#color-palette').append('<div id="palette-loading"><p>Extracting colors...</p></div>');
+    $.ajax(imageToBeExtracted);
+}
+
+function listenGenColorPalette() {
+    $('#search-results').on('click', '.generate-palette', event => {
+        const imgUrl = $(event.currentTarget).closest('.photo-container').children('img').attr('src');
+        getColorPalette(imgUrl);
+        $('#color-palette').show();
+        $('#back-to-top').remove();
+        $('.target-image-container').empty();
+        $('.color-palette-container').empty();
+        $('html, body').animate({
+            scrollTop: ($('#color-palette').offset().top)
+        }, 1000, 'swing');
     });
 }
 
@@ -162,7 +195,7 @@ function renderColor(color) {
             <p>Hex: ${colorHex}</p>
         </div>
     `);
-
+    // Sets the text color based on the contrast with the background color
     let rgb = [colorRed, colorGreen, colorBlue];
 
     console.log(rgb);
@@ -256,46 +289,12 @@ function generateColorPalette(photo) {
     generateImageColors(imageColors);
 }
 
-function getColorPalette(imageUrl) {
-    const imageToBeExtracted = {
-        url: 'https://api.imagga.com/v1/colors',
-        "async": true,
-        "crossDomain": true,
-        data: {
-            url: imageUrl
-        },
-        "method": "GET",
-        "headers": {
-            "Authorization": "Basic YWNjX2QxMmYyN2E4ZjU3MTFmNzoxZjdiYjViZWE5OGNkYjVkYWM0MGQyNGI0ODQ4OGIyYg==",
-            "Cache-Control": "no-cache",
-        },
-        success: generateColorPalette
-    }
-
-    $('#color-palette').append('<div id="palette-loading"><p>Extracting colors...</p></div>');
-    $.ajax(imageToBeExtracted);
-}
-
 function listenForBackToTopClick() {
     $('#color-palette').on('click', '#back-to-top', () => {
         $('html, body').animate({
             scrollTop: ($('#scroll').offset().top)
         }, 1000, 'swing');
 
-    });
-}
-
-function listenGenColorPalette() {
-    $('#search-results').on('click', '.generate-palette', event => {
-        const imgUrl = $(event.currentTarget).closest('.photo-container').children('img').attr('src');
-        getColorPalette(imgUrl);
-        $('#color-palette').show();
-        $('#back-to-top').remove();
-        $('.target-image-container').empty();
-        $('.color-palette-container').empty();
-        $('html, body').animate({
-            scrollTop: ($('#color-palette').offset().top)
-        }, 1000, 'swing');
     });
 }
 
@@ -316,7 +315,7 @@ function callListeners() {
 
 $(callListeners);
 
-// Particle Code 
+// Particle Code - for Main landing background
 
 const particlesJS = window.particlesJS;
 
