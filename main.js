@@ -9,6 +9,8 @@ function scrollToResults() {
     }, 1000, 'swing');
 }
 
+
+// Separates pagination links in response header into an object
 function parseLinkHeader(header) {
     const parts = header.split(',');
     const links = {};
@@ -89,7 +91,6 @@ function getSearchResults(searchText, callback) {
 }
 
 function listenForPhotoSearchClick() {
-    //this listens for a click on the photo search form
     $('#photo-search-form').submit(event => {
         event.preventDefault();
         $('#search-results').empty();
@@ -197,10 +198,7 @@ function renderColor(color) {
     `);
     // Sets the text color based on the contrast with the background color
     let rgb = [colorRed, colorGreen, colorBlue];
-
-    console.log(rgb);
     let o = Math.round(((parseInt(rgb[0]) * 299) + (parseInt(rgb[1]) * 587) + (parseInt(rgb[2]) * 114)) / 1000);
-    console.log(o);
 
     if (o >= 128) {
         $(`#${colorId}-font p`).css('color', 'black');
