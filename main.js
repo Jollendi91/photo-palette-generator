@@ -28,14 +28,15 @@ function renderPhoto(photo) {
     const photoUrl = photo.urls.small;
     const userName = photo.user.name;
     const unsplashUserLink = photo.user.links.html;
-    const unsplashLink = photo.links.html;
 
     return `
-        <div class="photo-container">
-          <img src="${photoUrl}" data-username="${userName}" data-unsplash-user="${unsplashUserLink}" data-unsplash="${unsplashLink}" alt="A photo by ${userName}" role="button" tabindex="-1" onclick="renderPhotoButtons(event)">
-          <div class="button-container">
-          </div>
+    <div class="photo-container">
+        <img src="${photoUrl}" alt="A photo by ${userName}" role="button" tabindex="-1" onclick="displayPhotoButtons(event)">
+        <div class="target-photo-buttons">
+            <p>Photo by <a  href="${unsplashUserLink}?utm_source=photo_palette&utm_medium=referral" target="_blank">${userName}</a> on <a href="https://unsplash.com/?utm_source=photo_palette&utm_medium=referral" target="_blank">Unsplash</a></p>
+            <button class="button generate-palette">Generate Color Palette</button>
         </div>
+    </div>
     `;
 }
 
@@ -115,20 +116,6 @@ function listenForPhotoSearchClick() {
     });
 }
 
-function renderPhotoButtons(event) {
-    const selectedImg = event.target.firstElementChild || event.target;
-    const userName = $(selectedImg).attr('data-username');
-    const unsplashUserLink = $(selectedImg).attr('data-unsplash-user');
-    $('.button-container').html('');
-    $(selectedImg).parent('.photo-container').children('.button-container').html(`
-    <div class="target-photo-buttons">
-        <p>Photo by <a  href="${unsplashUserLink}?utm_source=photo_palette&utm_medium=referral" target="_blank">${userName}</a> on <a href="https://unsplash.com/?utm_source=photo_palette&utm_medium=referral" target="_blank">Unsplash</a></p>
-        <button class="button generate-palette">Generate Color Palette</button>
-    </div>
-    `)
-    $('.target-photo-buttons').slideDown(600, "swing");
-}
-
 function a11yClick(event) {
     if (event.type === 'click') {
         return true;
@@ -145,10 +132,17 @@ function a11yClick(event) {
     }
 }
 
+function displayPhotoButtons(targetPhoto) {
+    $(targetPhoto).slideToggle(600, "swing");
+}
+
 function listenForPhotoSelect() {
-    $('#search-results').on('click keydown', 'img', event => {
+    $('#search-results').on('click keydown', '.photo-container', event => {
         if (a11yClick(event) === true) {
-            renderPhotoButtons(event);
+            let targetButtons = event.currentTarget.lastElementChild;
+
+            $('.target-photo-buttons').not(targetButtons).slideUp();
+            displayPhotoButtons(targetButtons);
         }
     });
 }
