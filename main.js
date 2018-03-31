@@ -47,6 +47,7 @@ function renderSearchResults(data, status, jqXHR) {
     if (data.results.length == 0) {
         $('#photo-loading').remove();
         $('#error').remove();
+        $('#search-results').hide();
         $('#search-container').append('<div id="no-results"><h2>Your search yielded no results, please try again!</h2></div>');
     } else {
         const results = data.results.map((photo) => renderPhoto(photo));
