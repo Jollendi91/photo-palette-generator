@@ -27,12 +27,12 @@ Color Palette:
 
 ### Front-End
 
--HTML
--CSS
--JavaScript
--jQuery
+- HTML
+- CSS
+- JavaScript
+- jQuery
 
 ### APIs
 
--[Unsplash](https://unsplash.com/developers) - For photo search
--[Imagga Color Extraction](https://docs.imagga.com/#colors) - To get colors from the selected photo
+- [Unsplash](https://unsplash.com/developers) - For photo search
+- [Imagga Color Extraction](https://docs.imagga.com/#colors) - To get colors from the selected photo
