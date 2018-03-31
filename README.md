@@ -34,5 +34,5 @@ Color Palette:
 
 ### APIs
 
-- [Unsplash](https://unsplash.com/developers) - For photo search
+- [Unsplash](https://unsplash.com/developers) - For searching for photos
 - [Imagga Color Extraction](https://docs.imagga.com/#colors) - To get colors from the selected photo
