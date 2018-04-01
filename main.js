@@ -61,11 +61,11 @@ function renderSearchResults(data, status, jqXHR) {
         $('.page-buttons').html('');
 
         if (links.prev) {
-            $('.page-buttons').append(`<button id="prev" class="page-button" role="button">Previous</button>`);
+            $('.page-buttons').append(`<button class="prev page-button" role="button">Previous</button>`);
         }
 
         if (links.next) {
-            $('.page-buttons').append(`<button id="next" class="page-button" role="button">Next</button>`);
+            $('.page-buttons').append(`<button class="next page-button" role="button">Next</button>`);
         }
     }
 }
@@ -108,11 +108,11 @@ function listenForPaginationClick() {
         success: renderSearchResults
     }
 
-    $('.page-buttons').on('click', '#prev', () => {
+    $('.page-buttons').on('click', '.prev', () => {
         $.ajax(links.prev, settings);
     });
 
-    $('.page-buttons').on('click', '#next', () => {
+    $('.page-buttons').on('click', '.next', () => {
         $.ajax(links.next, settings);
     });
 }
