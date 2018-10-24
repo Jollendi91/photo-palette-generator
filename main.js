@@ -149,18 +149,20 @@ function listenForPhotoSelect() {
 
 function getColorPalette(imageUrl) {
     const imageToBeExtracted = {
-        url: 'https://api.imagga.com/v1/colors',
+        url: 'https://api.imagga.com/v2/colors',
         "async": true,
         "crossDomain": true,
         data: {
-            url: imageUrl
+            image_url: imageUrl
         },
         "method": "GET",
         "headers": {
             "Authorization": "Basic YWNjX2QxMmYyN2E4ZjU3MTFmNzoxZjdiYjViZWE5OGNkYjVkYWM0MGQyNGI0ODQ4OGIyYg==",
             "Cache-Control": "no-cache",
         },
-        success: generateColorPalette
+        success: function (data) {
+            generateColorPalette(data, imageUrl);
+        }
     }
 
     $('#color-palette').append('<div id="palette-loading"><p>Extracting colors...</p></div>');
@@ -267,12 +269,12 @@ function generateImageColors(colors) {
     }
 }
 
-function generateColorPalette(photo) {
-    const photoColors = photo.results[0].info
+function generateColorPalette(photo, imageUrl) {
+    const photoColors = photo.result.colors
     const backgroundColors = photoColors.background_colors;
     const imageColors = photoColors.image_colors;
     const foregroundColors = photoColors.foreground_colors;
-    const photoImage = photo.results[0].image;
+    const photoImage = imageUrl;
 
     $('#palette-loading').remove();
     $('.target-image-container').empty();
